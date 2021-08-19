@@ -1,0 +1,32 @@
+<!DOCTYPEhtml>
+  <html>
+
+  <head>
+    <title>MeetingRoom</title>
+    <link rel="stylesheet" href="css\Main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div id="User2" class="topcorner2">
+        <h1 style="display:inline;">{{message}}</h1><!-- 추후 bind 등을 통해 주최자의 이름으로 변경-->
+        <button class="btn-1" style="display:inline;">Meeting Invite</button>
+      </div>
+      <div id="User" class="topcorner">
+        <!--회원 이름과 Logout배치-->
+        <h1 font-size="100px">{{message}}</h1>
+      </div>
+    </header>
+
+    <div class="bottomcorner">
+      <!--캠/떠니기 버튼 배치-->
+      <button class="btn-1" style="display:inline;">Cam On/Off</button>
+      <button class="btn-1" style="display:inline;" onclick="location.href = 'MainHome_after.html'">Leave</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/MeetingCheck.js"></script>
+    <script src="js/Main.js"></script>
+  </body>
+
+  </html>

@@ -1,0 +1,28 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="css\Main.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <header>
+  <div class="topcorner2">
+    <img src="image\Logo.png" width="250px" height="120px" onclick="location.href='MainHome_before.html'">
+  </div>
+</header>
+  <div id="divPosition" style ="text-align : center"><!--로고 및 버튼(로그인/회원가입)-->
+    <form name=loginInfo method="POST" action="MainHome_after.html"><!--form 내부에 버튼이 있으면 onclick="location.href"가 먹히지 않음-->
+      <!--나중에 값을 넘겨주는 함수를 만들어서 button onclick 이벤트에 추가로 넣어야함-->
+      <input type="text" name="IdCode"placeholder="Id" required><br>
+      <input type="password" name="PwCode"placeholder="Password" required><br>
+      <button type="submit" class="btn-1" onclick="LoginFormCheck()">Login</button><!--Login-->
+    </form>
+    
+  </div>
+  <div class="bottomcorner"><!--Join 배치-->
+    <button class="btn-1" onclick = "location.href = 'Join.html'">Join</button>
+  </div>
+  <script src="js/Login.js"></script>
+</body>
+</html>
