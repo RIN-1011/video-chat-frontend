@@ -1,0 +1,109 @@
+#wrapper{
+  text-align : center
+}
+#divPosition {
+     border: 1px;
+     position:absolute;
+     height:300px;
+     width:400px;
+     margin:-150px 0px 0px -200px;
+     top: 50%;
+     left: 50%;
+     padding: 5px;
+   }
+.topcorner{
+  position:absolute;
+  top:0;
+  right:0;
+ }
+ .topcorner2{
+   position:absolute;
+   top:0;
+   left:30px;
+  }
+
+  .ListCheck{
+    /*background-color: black;*/
+    border: 1px;
+    position:absolute;
+    top:150px;
+    right:70px;
+    height:400px;
+    width:600px;
+   }
+   .VideoCheck{
+     background-color: white;
+     border: 1px;
+     position:absolute;
+     top:150px;
+     left:70px;
+     height:400px;
+     width:600px;
+    }
+  .bottomcorner{
+    position:absolute;
+    bottom:0;
+    right:30px;
+   }
+/*a {
+  text-decoration:none
+}
+a:hover {
+  text-decoration:none
+}*/
+body {
+  background: black;
+    color: white;
+  font-size: 62.5%;
+}
+
+.container {
+  padding: 2em;
+}
+
+/* GENERAL BUTTON STYLING */
+button,
+button::after {
+  -webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+button {
+  background: none;
+  border: 3px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  display: block;
+  font-size: 1.6em;
+  font-weight: bold;
+  margin: 1em auto;
+  padding: 1em 3em;
+  position: relative;
+  text-transform: uppercase;
+}
+
+button::before,
+button::after {
+  background: #fff;
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+
+button:hover {
+  color: #2ecc71;
+}
+
+/* BUTTON 1 */
+.btn-1::after {
+  height: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.btn-1:hover:after {
+  height: 100%;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPEhtml>
+  <html>
+
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>MeetingCheck</title>
+    <style>
+      .topcorner2 {
+        position: absolute;
+        top: 0;
+        left: 30px;
+      }
+
+      .ListCheck {
+        /*background-color: black;*/
+        border: 1px;
+        position: absolute;
+        top: 150px;
+        right: 70px;
+        height: 400px;
+        width: 600px;
+      }
+
+      .VideoCheck {
+        background-color: white;
+        border: 1px;
+        position: absolute;
+        top: 150px;
+        left: 70px;
+        height: 400px;
+        width: 600px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="topcorner2">
+        <h1 style="display:inline;">OO's room</h1><!-- 추후 bind 등을 통해 주최자의 이름으로 변경-->
+      </div>
+      <div class="VideoCheck">
+      </div>
+      <div class="ListCheck">
+        <button class="btn btn-outline-success" style="top:20%; right:32%">출석 확인</button>
+        <button class="btn btn-outline-success" style="top:20%; right:32%">방 입장</button>
+        <div id="FaceCheck">
+          <img id="FCheck"
+            src="https://w7.pngwing.com/pngs/958/304/png-transparent-red-x-illustration-x-mark-check-mark-symbol-x-mark-miscellaneous-angle-hand.png"
+            width="20px" height="20px" />
+        </div>
+      </div>
+    </header>
+  </body>
+
+  </html>
