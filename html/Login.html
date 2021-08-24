@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+    #wrapper {
+      text-align: center
+    }
+
+    #divPosition {
+      border: 1px;
+      position: absolute;
+      height: 300px;
+      width: 400px;
+      margin: -150px 0px 0px -200px;
+      top: 50%;
+      left: 50%;
+      padding: 5px;
+    }
+
+    body {
+      background: wheat;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+  </header>
+  <div id="divPosition" style="text-align : center">
+    <!--로고 및 버튼(로그인/회원가입)-->
+    <form name=loginInfo method="POST" action="index_2" onsubmit="LoginCheckDB()">
+      <!--form 내부에 버튼이 있으면 onclick="location.href"가 먹히지 않음-->
+      <!--나중에 값을 넘겨주는 함수를 만들어서 button onclick 이벤트에 추가로 넣어야함-->
+      <input type="text" id="IdCode" name="IdCode" placeholder="Id" required><br>
+      <input type="password" id="PwCode" name="PwCode" placeholder="Password" required><br>
+      <!--Login-->
+    </form>
+    <a href="#" id="index_2">
+      <button type="submit" class="btn btn-outline-success" id="Login" onclick="LoginFormCheck()">Login</button></a>
+  </div>
+  <div class=" bottomcorner">
+    <!--Join 배치-->
+    <a href="Join" id="Join">
+      <button class="btn btn-outline-success" id="Join">Join</button>
+    </a>
+  </div>
+  <script>
+    $(function () {
+      $('#Login').on("click", function () {
+        var a = {
+          id: $("#IdCode").val(),
+          password: $("#PwCode").val()
+        };
+        console.log(a);
+        var form = $("#Login").serialize();
+        console.log(form);
+
+        $.ajax({
+          type: "post",
+          url: "http://localhost:8080/user/login",
+          data: JSON.stringify(a),
+          headers: { 'Content-Type': 'application/json' },
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+            location.reload()
+            document.getElementById("index_2").href = "index_2";
+          },
+          error: function (request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            //document.getElementById("index_2").href = "index_2";
+
+          }
+        });
+      });
+    });
+    function LoginFormCheck() {
+      theForm = document.loginInfo;
+      if (theForm.IdCode.value == "") {
+        alert("Enter the Id");
+      }
+      else if (theForm.PwCode.value == "") {
+        alert("Enter the Password");
+        console.log("enter the password");
+      }
+    }
+    //https://www.codingfactory.net/12175
+    //미리 회원가입된 정보를 DB에서 찾아, 입력한 ID, PW와 일치하는지 확인하고, 로그인 시켜준다.
+    function LoginCheckDB() {
+
+    }
+  </script>
+</body>
+
+</html>

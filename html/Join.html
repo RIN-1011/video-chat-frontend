@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Join</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+    #wrapper {
+      text-align: center
+    }
+
+    #divPosition {
+      border: 1px;
+      position: absolute;
+      height: 300px;
+      width: 400px;
+      margin: -150px 0px 0px -200px;
+      top: 50%;
+      left: 50%;
+      padding: 5px;
+    }
+
+    body {
+      background: wheat;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="divPosition" style="text-align : center">
+    <form id="joinInfo" name=joinInfo method="POST">
+      <!--form 내부에 버튼이 있으면 onclick="location.href"가 먹히지 않음(해결)-->
+      <!--나중에 값을 넘겨주는 함수를 만들어서 button onclick 이벤트에 추가로 넣어야함(해결)-->
+      <input type="text" id="IdCode" name="IdCode" placeholder="Input your Id" required><br>
+      <input type="password" id="PwCode" name="PwCode" placeholder="Input your Password" required><br>
+      <input type="password" id="PwCheck" name="PwCheck" placeholder="Password Check" required><br>
+      <br>
+      <div class="alert alert-danger" id="alert-danger">Not equal Password</div>
+      <div class="alert alert-success" id="alert-success">equal Password</div>
+      <input type="text" id="UserName" name="UserName" placeholder="Input your Name" required><br>
+      <input type="text" id="UserMajor" name="UserMajor" placeholder="Input your Major" required><br>
+      <input type="text" id="UserStudentId" name="UserStudentId" placeholder="Input your StudentId" required><br>
+      <label class="btn btn-warning" onclick="openTextFile()">Face</label>
+      <label class="btn btn-warning" onclick="openTextFile()">LeftSide</label>
+      <label class="btn btn-warning" onclick="openTextFile()">RightSide</label></br>
+      <div id='output1'></div>
+      <div id='output2'></div>
+      <div id='output3'></div>
+      <!--Join하기 전에 js를 통해서 id중복 확인하는 함수와 연결하기/api만들어지면 해야함-->
+    </form>
+    <button class="btn btn-outline-success" id="Join">Join</button>
+  </div>
+  <script>
+    var cnt = 0;
+    var fa_1;
+    var fa_2;
+    var fa_3;
+    function openTextFile() {
+      var input = document.createElement("input");
+
+      input.type = "file";
+      input.accept = "image/*";
+      input.id = "uploadInput";
+
+      input.click();
+      input.onchange = function (event) {
+        processFile(event.target.files[0]);
+      };
+    }
+    function processFile(file) {
+      var reader = new FileReader();
+      console.log(cnt);
+      reader.onload = function () {
+        var result = reader.result;
+        //console.log(result);
+        if (cnt == 0) {
+          fa_1 = result;
+          output1.innerText = "Complete set Face Image!";
+          cnt = 1;
+        }
+        else if (cnt == 1) {
+          fa_2 = result;
+          output2.innerText = "Complete set LeftSide Image!";
+          cnt = 2;
+        }
+        else {
+          fa_3 = result;
+          output3.innerText = "Complete set RightSide Image!";
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    $(function () {
+      $("#alert-success").hide();
+      $("#alert-danger").show();
+      $("input").keyup(function () {
+        var pwd1 = $("#PwCode").val();
+        var pwd2 = $("#PwCheck").val();
+        if (pwd1 != "" || pwd2 != "") {
+          if (pwd1 == pwd2) {
+            $("#alert-success").show();
+            $("#alert-danger").hide();
+            $("#Join").removeAttr("disabled");
+          } else {
+            $("#alert-success").hide();
+            $("#alert-danger").show();
+            $("#Join").attr("disabled", "disabled");
+          }
+        }
+      });
+    });
+
+    $(function () {
+      $('#Join').on("click", function () {
+        var a = {
+          id: $("#IdCode").val(),
+          password: $("#PwCode").val(),
+          name: $("#UserName").val(),
+          major: $("#UserMajor").val(),
+          studentId: $("#UserStudentId").val(),
+          faceImage_1: fa_1,
+          faceImage_2: fa_2,
+          faceImage_3: fa_3
+        };
+        // console.log(a);
+
+        $.ajax({
+          type: "POST",
+          url: "http://localhost:8080/user/new-account",
+          data: JSON.stringify(a),
+          headers: { 'Content-Type': 'application/json' },
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+            console.log("API success");
+            location.reload()
+          },
+          error: function (request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
