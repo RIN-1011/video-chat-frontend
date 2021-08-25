@@ -1,36 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Capstone Meeting</title>
-  <link rel="stylesheet" href="css\Main.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Latest minified Bootstrap & JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background: wheat;
+    }
+
+    #wrapper {
+      text-align: center
+    }
+
+    .topcorner {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .container {
+      padding: 2em;
+    }
+  </style>
+  <title>Home</title>
 </head>
 
 <body>
   <header>
     <div id="User" class="topcorner">
-      <!--회원 이름과 Logout배치-->
-      <h1 style="display: inline">{{message}}</h1>
-      <button class="btn-1" style="display: inline" onclick="location.href='MainHome_before.html'">Logout</button>
+      <!--Login Info/Logout-->
+      <h1 style="display: inline">000</h1>
+      <a href="/" id="Logout">
+        <button class="btn btn-danger" style="display: inline">Logout</button></a>
     </div>
   </header>
+
   <div id="wrapper">
-    <!--로고 및 버튼(미팅시작/미팅참가)-->
     <!--Logo-->
-    <img src="image\Logo.png" /><br />
-    <!--미팅 시작-->
-    <button class="btn-1" onclick="location.href = 'MeetingRoom.html'">Meeting Start</button><br />
-    <form name="MeetingNumber" action="MeetingCheck.html">
-      <input type="text" name="MeetingInvite" placeholder="Input the Meeting Number" required />
-      <!--미팅 넘버에 의해 입장할 수 있게 해야함-->
-      <button type="submit" class="btn-1" onclick="MeetingNCheck()">Meeting Join
-      </button>
-      <!--미팅 참가-->
+    <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" /></br>
+    <!--Meeting Start-->
+    <a href="html/main" id="Logout">
+      <button class="btn btn-info">Meeting Start</button>
+    </a>
+    </br></br>
+    <!--Meeting Join-->
+    <form id="MeetingNumber" name="MeetingNumber" method="get" style="display:inline;">
+      <input type="text" id="meetingN" name="MeetingN" placeholder="Meeting Number" required>
     </form>
+    <button id="meet" class="btn btn-info">Meeting Join</button>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="js/MeetingCheck.js"></script>
-  <script src="js/Main.js"></script>
+  <script>
+    $(function () {
+      $('#meet').on("click", function () {
+        if ($("#meetingN").val() == "") {
+          alert("Enter the Meeing Room Number!");
+        }
+        else {
+          //있는 미팅룸인가? 아니면 일단 무조건 들어가게 할건가?
+          var theForm = document.MeetingNumber;
+          console.log("??");
+          theForm.action = "/MeetingFaceCheck";
+          theForm.submit();
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

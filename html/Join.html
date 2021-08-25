@@ -17,9 +17,21 @@
       height: 300px;
       width: 400px;
       margin: -150px 0px 0px -200px;
-      top: 50%;
+      top: 45%;
       left: 50%;
       padding: 5px;
+    }
+
+    .topcorner2 {
+      position: absolute;
+      top: 0;
+      left: 30px;
+    }
+
+    .bottomcorner {
+      position: absolute;
+      top: 30px;
+      right: 30px;
     }
 
     body {
@@ -29,6 +41,15 @@
 </head>
 
 <body>
+  <header>
+    <div class="topcorner2">
+      <!--로고배치-->
+      <a href="/">
+        <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" width="250px"
+          height="120px">
+      </a>
+    </div>
+  </header>
   <div id="divPosition" style="text-align : center">
     <form id="joinInfo" name=joinInfo method="POST">
       <!--form 내부에 버튼이 있으면 onclick="location.href"가 먹히지 않음(해결)-->
@@ -41,28 +62,46 @@
       <div class="alert alert-success" id="alert-success">equal Password</div>
       <input type="text" id="UserName" name="UserName" placeholder="Input your Name" required><br>
       <input type="text" id="UserMajor" name="UserMajor" placeholder="Input your Major" required><br>
-      <input type="text" id="UserStudentId" name="UserStudentId" placeholder="Input your StudentId" required><br>
-      <label class="btn btn-warning" onclick="openTextFile()">Face</label>
-      <label class="btn btn-warning" onclick="openTextFile()">LeftSide</label>
-      <label class="btn btn-warning" onclick="openTextFile()">RightSide</label></br>
-      <div id='output1'></div>
-      <div id='output2'></div>
-      <div id='output3'></div>
-      <!--Join하기 전에 js를 통해서 id중복 확인하는 함수와 연결하기/api만들어지면 해야함-->
+      <input type="text" id="UserStudentId" name="UserStudentId" placeholder="Input your StudentId" required><br><br>
+      <label id="face1" class="btn btn-warning" onclick="openTextFile()">Face 1</label>
+      <label id="face2" class="btn btn-warning" onclick="openTextFile()">Face 2</label>
+      <label id="face3" class="btn btn-warning" onclick="openTextFile()">Face 3</label></br>
+      <div id='output1'>register the Face Image 1</div>
+      <div id='output2'>register the Face Image 2</div>
+      <div id='output3'>register the Face Image 3</div>
     </form>
-    <button class="btn btn-outline-success" id="Join">Join</button>
+    <button class="btn btn-outline-success" id="Join" onclick="FormCheck()">Join</button>
   </div>
   <script>
     var cnt = 0;
-    var fa_1;
-    var fa_2;
-    var fa_3;
+    var fa_1 = "";
+    var fa_2 = "";
+    var fa_3 = "";
+    $(function () {
+      $('#face1').on("click", function () {
+        cnt = 0;
+        console.log(cnt);
+      })
+    });
+    $(function () {
+      $('#face2').on("click", function () {
+        cnt = 1;
+        console.log(cnt);
+      })
+    });
+    $(function () {
+      $('#face3').on("click", function () {
+        cnt = 2;
+        console.log(cnt);
+      })
+    });
     function openTextFile() {
       var input = document.createElement("input");
 
       input.type = "file";
       input.accept = "image/*";
       input.id = "uploadInput";
+      input.required = true;
 
       input.click();
       input.onchange = function (event) {
@@ -71,26 +110,52 @@
     }
     function processFile(file) {
       var reader = new FileReader();
-      console.log(cnt);
+      //console.log(cnt);
       reader.onload = function () {
         var result = reader.result;
         //console.log(result);
         if (cnt == 0) {
           fa_1 = result;
-          output1.innerText = "Complete set Face Image!";
-          cnt = 1;
+          output1.innerText = "Complete set Face 1 Image!";
         }
         else if (cnt == 1) {
           fa_2 = result;
-          output2.innerText = "Complete set LeftSide Image!";
-          cnt = 2;
+          output2.innerText = "Complete set Face 2 Image!";
         }
         else {
           fa_3 = result;
-          output3.innerText = "Complete set RightSide Image!";
+          output3.innerText = "Complete set Face 3 Image!";
         }
       };
       reader.readAsDataURL(file);
+    }
+    function FormCheck() {
+      theForm = document.joinInfo;
+      if (theForm.IdCode.value == "") {
+        alert("Enter the Id");
+      }
+      else if (theForm.PwCode.value == "") {
+        alert("Enter the Password");
+      }
+      else if (theForm.PwCheck.value == "") {
+        alert("Check the Password");
+      }
+      else if (theForm.UserName.value == "") {
+        alert("Enter the Name");
+      }
+      else if (theForm.UserMajor.value == "") {
+        alert("Enter the Major");
+      }
+      else if (theForm.UserStudentId.value == "") {
+        alert("Enter the StudentId");
+      }
+      else if (fa_1 == "") {
+        alert("Register the Face Image 1");
+      } else if (fa_2 == "") {
+        alert("Register the Face Image 2");
+      } else if (fa_3 == "") {
+        alert("Register the Face Image 3");
+      }
     }
     $(function () {
       $("#alert-success").hide();
@@ -114,34 +179,43 @@
 
     $(function () {
       $('#Join').on("click", function () {
-        var a = {
-          id: $("#IdCode").val(),
-          password: $("#PwCode").val(),
-          name: $("#UserName").val(),
-          major: $("#UserMajor").val(),
-          studentId: $("#UserStudentId").val(),
-          faceImage_1: fa_1,
-          faceImage_2: fa_2,
-          faceImage_3: fa_3
-        };
-        // console.log(a);
+        if (fa_1 != "" && fa_2 != "" && fa_3 != "") {
+          var a =
+          {
+            id: $("#IdCode").val(),
+            password: $("#PwCode").val(),
+            name: $("#UserName").val(),
+            major: $("#UserMajor").val(),
+            studentId: $("#UserStudentId").val(),
+            faceImage_1: fa_1,
+            faceImage_2: fa_2,
+            faceImage_3: fa_3
+          };
+          // console.log(a);
 
-        $.ajax({
-          type: "POST",
-          url: "http://localhost:8080/user/new-account",
-          data: JSON.stringify(a),
-          headers: { 'Content-Type': 'application/json' },
-          dataType: 'json',
-          success: function (data) {
-            console.log(data);
-            console.log("API success");
-            location.reload()
-          },
-          error: function (request, status, error) {
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-
-          }
-        });
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/user/new-account",
+            data: JSON.stringify(a),
+            headers: { 'Content-Type': 'application/json' },
+            dataType: 'json'
+          })
+            .done(function (msg) {
+              console.log(msg);
+              if (msg) {
+                var theForm = document.joinInfo;
+                console.log("??");
+                theForm.action = "/";
+                theForm.submit();
+              }
+              else {
+                alert("This Id is already registered!");
+              }
+            });
+        }
+        else {
+          console.log("None Image");
+        }
       });
     });
   </script>

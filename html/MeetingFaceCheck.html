@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Main Page</title>
+    <title>Meeting Face Check</title>
     <!-- Latest minified Bootstrap & JQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Custom styles for this template -->
@@ -15,18 +15,27 @@
             background: wheat;
         }
 
+        #wrapper {
+            text-align: center;
+        }
+
         .topcorner2 {
             position: absolute;
             top: 0;
             left: 30px;
         }
 
+        .topcorner {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
         .ListCheck {
             /*background-color: black;*/
             border: 1px;
             position: absolute;
-            top: 400px;
-            right: 500px;
+            top: 200px;
             height: 400px;
             width: 600px;
             display: inline;
@@ -35,7 +44,9 @@
         .VideoCheck {
             background-color: white;
             border: 1px;
+            position: relative;
             text-align: center;
+            top: 120px;
             height: 400px;
             width: 600px;
         }
@@ -43,51 +54,36 @@
 </head>
 
 <body class="text-center">
-
+    <header>
+        <div class="topcorner2">
+            <a href="/index_2">
+                <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" width="250px"
+                    height="120px">
+            </a>
+        </div>
+        <div id="User" class="topcorner">
+            <!--Login Info/Logout-->
+            <h1 style="display: inline">000</h1>
+            <a href="/" id="Logout">
+                <button class="btn btn-danger" style="display: inline">Logout</button></a>
+        </div>
+    </header>
     <!-- Begin page content -->
     <main role="main" class="container">
-        <h1>Simple WebRTC Signaling Server</h1>
-        <div id="container">
-            <p>
-                This part receives a room number (or generates new one), and redirects current user there.
-            </p>
-            <form id="form">
-                <input type="hidden" id="uuid" name="uuid" />
-                <div class="row justify-content-md-center">
-                    <div class="input-group col-md-6 mb-3 justify-content-md-center">
-                        <div class="mb-3">
-                            <label for="rooms-list">Select one of the rooms created:</label><br>
-                            <h4>
-                                <div id="rooms-list-div">
-                                    <span id="rooms-list">
-                                        <a href="/room/{id}(id=${r.id})" id="'button-link-'+${r.id}">
-                                            <button type="button" name="action" text="${r.id}" th:value="${r.id}"
-                                                class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">99
-                                            </button>
-                                        </a>
-                                    </span>
-                                </div>
-
-                            </h4>
-                        </div>
-                        <div class="mb-3">
-                            <label for="id">To create a new room enter your room number,
-                                or press 'Random #' button to get a random one</label>
-                            <input class="form-control" name="id" id="id" type="number" placeholder="Min: 0, max: 99"
-                                min="0" max="99" required>
-                        </div>
-                        <div>
-                            <a href="http://localhost:8080/room/random">
-                                <button class="btn btn-outline-success" type="button">Random #</button>
-                            </a>
-                            <button value="create" type="submit" id="submit" class="btn btn-outline-primary">
-                                Create Selected Room</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+        <div class="ListCheck">
+            <button class="btn btn-success" style="top:20%; right:32%; display:inline" onclick=" CheckUserFace()">출석
+                확인</button>
+            <div id="FaceCheck" style="display:inline">
+                <img id="FCheck"
+                    src="https://w7.pngwing.com/pngs/958/304/png-transparent-red-x-illustration-x-mark-check-mark-symbol-x-mark-miscellaneous-angle-hand.png"
+                    width="20px" height="20px" />
+            </div></br></br>
+            <div>
+                <button class="btn btn-primary" style="top:20%; right:32%; display:inline">N번 입장</button>
+            </div>
         </div>
-
+        <div class="VideoCheck">
+        </div>
     </main>
     <!--generates unique user identifier stored at 'uuid' input field to pass it to the back-side-->
     <!-- <script src="/js/main_client.js"></script> -->
@@ -170,6 +166,25 @@
 
             });
         });
+        function MeetingNCheck() {//MeetingNumber check
+            theForm = document.MeetingNumber.MeetingInvite;
+            if (theForm.value == "") {
+                alert("미팅 번호를 입력하세요.");
+            }
+
+            if (false) {//생성된 미팅 번호중에 있는걸로 입력했는지 확인해서 처리해야됨
+                return;
+            }
+            if (document.getElementById("FCheck").src == "https://w7.pngwing.com/pngs/958/304/png-transparent-red-x-illustration-x-mark-check-mark-symbol-x-mark-miscellaneous-angle-hand.png") {
+                //만약 x 아이콘 상태면 출석 체크 먼저 하고 입장하게 하기
+            }
+        }
+
+        function CheckUserFace() {
+            //opencv를 통해서 얼굴 확인되면 해당 이미지로 변경되게 하기
+            //if문을 통해 true면 check_on으로 false면 check_off로
+            document.getElementById("FCheck").src = "https://png.pngtree.com/element_our/20190523/ourmid/pngtree-green-checkmark-error-image_1082147.jpg";
+        }
     </script>
 </body>
 

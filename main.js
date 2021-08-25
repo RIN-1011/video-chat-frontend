@@ -14,7 +14,7 @@ var app = http.createServer(function (request, response) {
         });
     }
 
-    if (request.url == '/html/main') {
+    if (request.url == '/html/main' || request.url == '/main_client') {
         fs.readFile('./html/main_client.html', null, function (error, data) {
             if (error) {
                 response.writeHead(404);
@@ -26,7 +26,7 @@ var app = http.createServer(function (request, response) {
             response.end();
         });
     }
-    if (request.url == '/html/Join') {
+    if (request.url == '/html/Join' || request.url == '/Join') {
         fs.readFile('./html/Join.html', null, function (error, data) {
             if (error) {
                 response.writeHead(404);
@@ -38,18 +38,7 @@ var app = http.createServer(function (request, response) {
             response.end();
         });
     }
-    if (request.url == '/Join') {
-        fs.readFile('./html/Join.html', null, function (error, data) {
-            if (error) {
-                response.writeHead(404);
-                response.write('File not found');
-            }
-            else {
-                response.write(data);
-            }
-            response.end();
-        });
-    }
+
     if (request.url == '/index_2') {
         fs.readFile('./html/index_2.html', null, function (error, data) {
             if (error) {
@@ -62,8 +51,8 @@ var app = http.createServer(function (request, response) {
             response.end();
         });
     }
-    if (request.url == '/html/MeetingCheck') {
-        fs.readFile('./html/Join.html', null, function (error, data) {
+    if (request.url == '/html/MeetingFaceCheck' || request.url == '/MeetingFaceCheck') {
+        fs.readFile('./html/MeetingFaceCheck.html', null, function (error, data) {
             if (error) {
                 response.writeHead(404);
                 response.write('File not found');
