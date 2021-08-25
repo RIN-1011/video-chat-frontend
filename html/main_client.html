@@ -21,6 +21,12 @@
             left: 30px;
         }
 
+        .topcorner {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
         .ListCheck {
             /*background-color: black;*/
             border: 1px;
@@ -39,11 +45,29 @@
             height: 400px;
             width: 600px;
         }
+
+        .container {
+            padding: 8em;
+        }
     </style>
 </head>
 
 <body class="text-center">
-
+    <header>
+        <div class="topcorner2">
+            <!--Logo-->
+            <a href="/index_2">
+                <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" width="250px"
+                    height="120px">
+            </a>
+        </div>
+        <div id="User" class="topcorner">
+            <!--Login Info/Logout-->
+            <h1 style="display: inline">000</h1>
+            <a href="/" id="Logout">
+                <button class="btn btn-danger" style="display: inline">Logout</button></a>
+        </div>
+    </header>
     <!-- Begin page content -->
     <main role="main" class="container">
         <h1>Simple WebRTC Signaling Server</h1>
