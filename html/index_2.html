@@ -52,8 +52,9 @@
     </a>
     </br></br>
     <!--Meeting Join-->
-    <form id="MeetingNumber" name="MeetingNumber" method="get" style="display:inline;">
-      <input type="text" id="meetingN" name="MeetingN" placeholder="Meeting Number" required>
+    <!--get으로 보내면 action이 되지 않음-->
+    <form id="MeetingNumber" name="MeetingNumber" method="POST" style="display:inline;">
+      <input type="text" id="meetingN" name="meetingN" placeholder="Meeting Number" required>
     </form>
     <button id="meet" class="btn btn-info">Meeting Join</button>
   </div>
