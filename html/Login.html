@@ -57,9 +57,8 @@
       <input type="password" id="PwCode" name="PwCode" placeholder="Password" required><br>
     </form>
     <input type="checkbox" id="autoLogin" name="autoLogin">
-    <Label>AutoLogin</Label></br>
+    <Label>Remember Id</Label></br>
     <button class="btn btn-outline-success" id="Login" onclick="LoginFormCheck()">Login</button>
-    <!--<a href="#" id="index_2">-->
   </div>
   <div class=" bottomcorner">
     <!--Join page-->
@@ -68,6 +67,33 @@
     </a>
   </div>
   <script>
+    function setCookie(cookie_name, value, days) {
+      var exdate = new Date();
+      var dayy = Date.parse(days);
+      exdate.setDate(exdate.getDate() + dayy);
+      var cookie_value = escape(value) + ((dayy == null) ? '' : '; expires=' + exdate.toUTCString());
+      document.cookie = cookie_name + '=' + cookie_value;
+    }
+    function getCookie(key) {
+      var result = null;
+      var cookie = document.cookie.split(';');
+      cookie.some(function (item) {
+        item = item.replace(' ', '');
+
+        var dic = item.split('=');
+        if (key === dic[0]) {
+          result = dic[1];
+          return true;    // break;
+        }
+      });
+      return result;
+    }
+    function delCookie(name) {
+      let date = new Date();
+      date.setDate(date.getDate() - 100);
+      let Cookie = `${name}=;Expires=${date.toUTCString()}`
+      document.cookie = Cookie;
+    }
     $(function () {
       $('#Login').on("click", function () {
         var userCheck = document.getElementById('autoLogin');
@@ -77,8 +103,6 @@
           useCookie: $(userCheck).prop("checked")
         };
         console.log(a);
-        var form = $("#Login").serialize();
-        console.log(form);
         //
         $.ajax({
           type: "post",
@@ -89,9 +113,17 @@
         })
           .done(function (msg) {
             console.log(msg);
-            if (msg) {
+            if (msg.loginResult) {
+              if ($(userCheck).prop("checked")) {
+                setCookie(msg.cookieName, msg.sessionId, msg.validTime);
+                var value = getCookie(msg.cookieName);
+                console.log("cookie create!");
+              }
+              else {
+                console.log("del");
+                delCookie("loginCookie");
+              }
               var theForm = document.loginInfo;
-              console.log("??");
               theForm.action = "/index_2";
               theForm.submit();
             }
@@ -111,11 +143,25 @@
         console.log("enter the password");
       }
     }
-    //https://www.codingfactory.net/12175
-    //미리 회원가입된 정보를 DB에서 찾아, 입력한 ID, PW와 일치하는지 확인하고, 로그인 시켜준다.
-    function LoginCheckDB() {
 
-    }
+    $(document).ready(function () {
+      var value = getCookie("loginCookie");
+      if (value != null) {
+        console.log("cookie! " + value);
+        var a = { sessionId: value };
+        $("#autoLogin").prop("checked", true);
+        $.ajax({
+          method: "post",
+          url: "http://localhost:8080/user/rememberId",
+          data: JSON.stringify(a),
+          headers: { 'Content-Type': 'application/json' },
+          dataType: 'json'
+        })
+          .done(function (msg) {
+            $("#IdCode").val(msg.id);
+          });
+      }
+    })
   </script>
 </body>
 
