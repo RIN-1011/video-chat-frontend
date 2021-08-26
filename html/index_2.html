@@ -47,16 +47,18 @@
     <!--Logo-->
     <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" /></br>
     <!--Meeting Start-->
-    <a href="html/main" id="Logout">
-      <button class="btn btn-info">Meeting Start</button>
-    </a>
-    </br></br>
-    <!--Meeting Join-->
-    <!--get으로 보내면 action이 되지 않음-->
-    <form id="MeetingNumber" name="MeetingNumber" method="POST" style="display:inline;">
-      <input type="text" id="meetingN" name="meetingN" placeholder="Meeting Number" required>
-    </form>
-    <button id="meet" class="btn btn-info">Meeting Join</button>
+    <div>
+      <a href="html/main" id="Logout">
+        <button class="btn btn-info">Meeting Start</button>
+      </a>
+      </br></br>
+      <!--Meeting Join-->
+      <!--get으로 보내면 action이 되지 않음-->
+      <form id="MeetingNumber" name="MeetingNumber" method="POST" style="display:inline;">
+        <input type="text" id="meetingN" name="meetingN" placeholder="Meeting Number" required>
+      </form>
+      <button id="meet" class="btn btn-info">Meeting Join</button>
+    </div>
   </div>
   <script>
     $(function () {

@@ -56,6 +56,8 @@
       <input type="text" id="IdCode" name="IdCode" placeholder="Id" required><br>
       <input type="password" id="PwCode" name="PwCode" placeholder="Password" required><br>
     </form>
+    <input type="checkbox" id="autoLogin" name="autoLogin">
+    <Label>AutoLogin</Label></br>
     <button class="btn btn-outline-success" id="Login" onclick="LoginFormCheck()">Login</button>
     <!--<a href="#" id="index_2">-->
   </div>
@@ -68,9 +70,11 @@
   <script>
     $(function () {
       $('#Login').on("click", function () {
+        var userCheck = document.getElementById('autoLogin');
         var a = {
           id: $("#IdCode").val(),
-          password: $("#PwCode").val()
+          password: $("#PwCode").val(),
+          useCookie: $(userCheck).prop("checked")
         };
         console.log(a);
         var form = $("#Login").serialize();

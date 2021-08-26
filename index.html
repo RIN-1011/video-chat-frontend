@@ -26,25 +26,50 @@
     </style>
     <title>Home</title>
 </head>
+<!--자동 로그인 기능을 통해 index를 하나로 통일할 예정-->
 
 <body>
+    <!--<header>
+        <div id="User" class="topcorner">
+            <h1 style="display: inline">000</h1>
+            <a href="/" id="Logout">
+                <button class="btn btn-danger" style="display: inline">Logout</button></a>
+        </div>
+    </header>-->
     <div id="wrapper" class="container">
-        <!--로고 및 버튼(로그인/회원가입)-->
         <!--Logo-->
         <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_"><br>
-        <!--Login-->
-        <a href="html/Login" id="Login">
-            <button class="btn btn-outline-success" id="Login">Login</button>
-        </a>
-        <!--Join-->
-        <a href="Join" id="Join">
-            <button class="btn btn-outline-success" id="Join">Join</button>
-        </a>
+        <div>
+            <!--Login-->
+            <a href="html/Login" id="Login">
+                <button class="btn btn-outline-success" id="Login">Login</button>
+            </a>
+            <!--Join-->
+            <a href="Join" id="Join">
+                <button class="btn btn-outline-success" id="Join">Join</button>
+            </a>
+        </div>>
     </div>
-    <a href="html/main">GO</a>
+    <!--<a href="html/main">GO</a>
     <a href="html/Login">Login</a>
     <a href="html/Join">Join</a>
-    <a href="html/MeetingCheck">MeetingCheck</a>
+    <a href="html/MeetingCheck">MeetingCheck</a>-->
+    <script>
+        $(function () {
+            $('#meet').on("click", function () {
+                if ($("#meetingN").val() == "") {
+                    alert("Enter the Meeing Room Number!");
+                }
+                else {
+                    //있는 미팅룸인가? 아니면 일단 무조건 들어가게 할건가?
+                    var theForm = document.MeetingNumber;
+                    console.log("??");
+                    theForm.action = "/MeetingFaceCheck";
+                    theForm.submit();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
