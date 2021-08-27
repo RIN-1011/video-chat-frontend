@@ -123,8 +123,9 @@
                 console.log("del");
                 delCookie("loginCookie");
               }
+              localStorage.setItem("Loginstate", 1);
               var theForm = document.loginInfo;
-              theForm.action = "/index_2";
+              theForm.action = "/";
               theForm.submit();
             }
             else {

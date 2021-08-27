@@ -56,7 +56,7 @@
     <header>
         <div class="topcorner2">
             <!--Logo-->
-            <a href="/index_2">
+            <a href="/">
                 <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" width="250px"
                     height="120px">
             </a>
@@ -65,7 +65,7 @@
             <!--Login Info/Logout-->
             <h1 style="display: inline">000</h1>
             <a href="/" id="Logout">
-                <button class="btn btn-danger" style="display: inline">Logout</button></a>
+                <button id="logout" class="btn btn-danger" style="display: inline">Logout</button></a>
         </div>
     </header>
     <!-- Begin page content -->
@@ -84,11 +84,11 @@
                             <h4>
                                 <div id="rooms-list-div">
                                     <span id="rooms-list">
-                                        <a href="/room/{id}(id=${r.id})" id="'button-link-'+${r.id}">
-                                            <button type="button" name="action" text="${r.id}" th:value="${r.id}"
-                                                class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">99
-                                            </button>
-                                        </a>
+                                        <!-- <a th:href="@{/room/{id}(id=${r.id})}" th:id="'button-link-'+${r.id}">
+                                    <button type="button" name="action" th:text="${r.id}" th:value="${r.id}"
+                                            class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">99
+                                    </button>
+                                </a> -->
                                     </span>
                                 </div>
 
@@ -111,14 +111,13 @@
                 </div>
             </form>
         </div>
-
     </main>
     <!--generates unique user identifier stored at 'uuid' input field to pass it to the back-side-->
     <!-- <script src="/js/main_client.js"></script> -->
     <script>
         $(function () {
             const uuidInput = document.querySelector('input#uuid');
-
+            console.log(location.host);
             function guid() {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                     let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -136,7 +135,6 @@
         });
 
         $(function () {
-
             $.ajax({
                 type: 'GET', // GET방식으로 요청
                 url: 'http://localhost:8080/room', // Request보낼 URL
@@ -147,7 +145,7 @@
                     //$("#rooms-list").append("<div class='col-xs-4'></div>"); // 태그 추가
                     $.each(data.rooms, function (index, value) {
                         var element = `
-                    <a href="{/room/${value.id}" id="'button-link-'+${value.id}">
+                    <a href="/room/${value.id}" id="button-link-${value.id}">
                         <button type="button" name="action" value="${value.id}"
                                 class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${value.id}
                         </button>
@@ -165,6 +163,10 @@
 
         function addUuidToButtonLink(button) {
             let id = 'button-link-' + button.value;
+            console.log(id);
+            //console.log("??" + document.getElementById(id));
+            console.log(document.getElementById(id).href);
+
             let ref = document.getElementById(id).href;
             document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
             console.log("link.href:" + document.getElementById(id).href);
@@ -174,7 +176,6 @@
             $('#submit').on("click", function () {
 
                 var form = $("#form").serialize();
-
                 console.log(form);
 
                 $.ajax({
@@ -184,14 +185,25 @@
                     dataType: 'json',
                     success: function (data) {
                         console.log(data);
-                        location.reload()
+                        //location.reload()
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 
                     }
                 });
-
+            });
+        });
+        $(function () {
+            $('#logout').on("click", function () {
+                localStorage.setItem("Loginstate", 0);
+                $.ajax({
+                    type: "get",
+                    url: "http://localhost:8080/user/logout"
+                })
+                    .done(function (msg) {
+                        console.log("Logout!");
+                    });
             });
         });
     </script>
