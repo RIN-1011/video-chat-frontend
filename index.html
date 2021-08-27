@@ -23,15 +23,29 @@
         .container {
             padding: 2em;
         }
+
+        .topcorner {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
     </style>
     <title>Home</title>
 </head>
 
 <body>
+    <header>
+        <div id="User" class="topcorner">
+            <!--Login Info/Logout-->
+            <h1 style="display: inline">000</h1>
+            <a href="/" id="Logout">
+                <button id="logout" class="btn btn-danger" style="display: inline">Logout</button></a>
+        </div>
+    </header>
     <div id="wrapper" class="container">
         <!--Logo-->
         <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_"><br>
-        <div>
+        <div id="before">
             <!--Login-->
             <a href="html/Login" id="Login">
                 <button class="btn btn-outline-success" id="Login">Login</button>
@@ -40,12 +54,22 @@
             <a href="Join" id="Join">
                 <button class="btn btn-outline-success" id="Join">Join</button>
             </a>
-        </div>>
+        </div>
+        <div id="after">
+            <a href="html/main" id="Logout">
+                <button class="btn btn-info">Meeting Start</button>
+            </a>
+            </br></br>
+            <!--Meeting Join-->
+            <!--get으로 보내면 action이 되지 않음-->
+            <span id="rooms-list">
+            </span><br>
+            <form id="MeetingNumber" name="MeetingNumber" method="POST" style="display:inline;">
+                <input type="text" id="meetingN" name="meetingN" placeholder="Meeting Number" required>
+            </form>
+            <button id="meet" class="btn btn-info">Meeting Join</button>
+        </div>
     </div>
-    <!--<a href="html/main">GO</a>
-    <a href="html/Login">Login</a>
-    <a href="html/Join">Join</a>
-    <a href="html/MeetingCheck">MeetingCheck</a>-->
     <script>
         $(function () {
             $('#meet').on("click", function () {
@@ -54,6 +78,7 @@
                 }
                 else {
                     //있는 미팅룸인가? 아니면 일단 무조건 들어가게 할건가?
+                    localStorage.setItem("roomNinput", $("#meetingN").val());
                     var theForm = document.MeetingNumber;
                     console.log("??");
                     theForm.action = "/MeetingFaceCheck";
@@ -61,6 +86,63 @@
                 }
             });
         });
+        $(function () {
+            $('#logout').on("click", function () {
+                localStorage.setItem("Loginstate", 0);
+                $.ajax({
+                    type: "get",
+                    url: "http://localhost:8080/user/logout"
+                })
+                    .done(function (msg) {
+                        console.log("Logout!");
+                    });
+            });
+        });
+        function addUuidToButtonLink(button) {
+            let id = 'button-link-' + button.value;
+            console.log(id);
+            //console.log("??" + document.getElementById(id));
+            console.log(document.getElementById(id).href);
+
+            let ref = document.getElementById(id).href;
+            document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
+            console.log("link.href:" + document.getElementById(id).href);
+        }
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/room',
+                data: { id: 0, uuid: localStorage.getItem("uuid") },
+                success: function (data) {
+                    $.each(data.rooms, function (index, value) {
+                        var element = `
+                        <button type="button" name="action" value="${value.id}"
+                                class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${value.id}
+                        </button>
+                    `
+                        $("#rooms-list").append(element);
+                    })
+
+                },
+                error: function () { // 실패시
+                    alert("AJAX Failed!");
+                }
+            });
+        });
+        $(document).ready(function () {
+            var lastData = localStorage.getItem('Loginstate');
+            console.log(lastData);
+            if (lastData == 1) {
+                $("#before").hide();
+                $("#after").show();
+                $("#User").show();
+            }
+            else {
+                $("#before").show();
+                $("#after").hide();
+                $("#User").hide();
+            }
+        })
     </script>
 </body>
 

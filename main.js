@@ -1,6 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var app = http.createServer(function (request, response) {
+    isEnterRoom(request.url)
     if (request.url == '/' || request.url == '/index.html') {
         fs.readFile('./index.html', null, function (error, data) {
             if (error) {
@@ -28,19 +29,6 @@ var app = http.createServer(function (request, response) {
     }
     if (request.url == '/html/Join' || request.url == '/Join') {
         fs.readFile('./html/Join.html', null, function (error, data) {
-            if (error) {
-                response.writeHead(404);
-                response.write('File not found');
-            }
-            else {
-                response.write(data);
-            }
-            response.end();
-        });
-    }
-
-    if (request.url == '/index_2') {
-        fs.readFile('./html/index_2.html', null, function (error, data) {
             if (error) {
                 response.writeHead(404);
                 response.write('File not found');
@@ -88,5 +76,25 @@ var app = http.createServer(function (request, response) {
             response.end();
         });
     }
+    if (isEnterRoom(request.url)) {
+        fs.readFile('./html/streaming.html', null, function (error, data) {
+            if (error) {
+                response.writeHead(404);
+                response.write('File not found');
+            }
+            else {
+                response.write(data);
+            }
+            response.end();
+        });
+    }
 });
+function isEnterRoom(url) {
+
+    var params = url.split('/');
+
+    if (params[1] == 'room' && params[3] == 'user') return true;
+
+    return false;
+}
 app.listen(3000);

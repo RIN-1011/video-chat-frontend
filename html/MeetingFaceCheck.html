@@ -56,7 +56,7 @@
 <body class="text-center">
     <header>
         <div class="topcorner2">
-            <a href="/index_2">
+            <a href="/">
                 <img src="http://drive.google.com/uc?export=view&id=1rG5FnW5o0NtosvDmHGaskrhoKZ9haT0_" width="250px"
                     height="120px">
             </a>
@@ -65,7 +65,7 @@
             <!--Login Info/Logout-->
             <h1 style="display: inline">000</h1>
             <a href="/" id="Logout">
-                <button class="btn btn-danger" style="display: inline">Logout</button></a>
+                <button id="logout" class="btn btn-danger" style="display: inline">Logout</button></a>
         </div>
     </header>
     <!-- Begin page content -->
@@ -79,7 +79,8 @@
                     width="20px" height="20px" />
             </div></br></br>
             <div>
-                <button class="btn btn-primary" style="top:20%; right:32%; display:inline">N번 입장</button>
+                <span id="rooms-list">
+                </span>
             </div>
         </div>
         <div class="VideoCheck">
@@ -89,83 +90,24 @@
     <!-- <script src="/js/main_client.js"></script> -->
     <script>
         $(function () {
-            const uuidInput = document.querySelector('input#uuid');
-
-            function guid() {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                    let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                });
-            }
-
-            if (localStorage.getItem("uuid") === null) {
-                localStorage.setItem("uuid", guid());
-            }
-
-            uuidInput.value = localStorage.getItem("uuid");
-            console.log("local.uuid:" + localStorage.getItem("uuid"));
-            console.log("input.value:" + uuidInput.value);
-        });
-
-        $(function () {
-
             $.ajax({
                 type: 'GET', // GET방식으로 요청
                 url: 'http://localhost:8080/room', // Request보낼 URL
-                data: { id: $("input#id").value, uuid: localStorage.getItem("uuid") },
-                success: function (data) { // 성공적으로 수행 시 response를 data라는 인자로 받는다.
-
-                    //자바스크립트 객체에 data의 0번째 배열에서 content에 해당하는 텍스트값을 저장
-                    //$("#rooms-list").append("<div class='col-xs-4'></div>"); // 태그 추가
-                    $.each(data.rooms, function (index, value) {
-                        var element = `
-                    <a href="{/room/${value.id}" id="'button-link-'+${value.id}">
-                        <button type="button" name="action" value="${value.id}"
-                                class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${value.id}
-                        </button>
-                    </a>
-                    `
-                        $("#rooms-list").append(element);
-                    })
-
-                },
-                error: function () { // 실패시
-                    alert("AJAX Failed!");
-                }
-            });
+                data: { id: localStorage.getItem('roomNinput'), uuid: localStorage.getItem("uuid") }
+            })
+                .done(function (msg) {
+                    console.log("done!");
+                });
         });
 
         function addUuidToButtonLink(button) {
             let id = 'button-link-' + button.value;
+            console.log(id);
+            console.log("??" + document.getElementById(id));
             let ref = document.getElementById(id).href;
             document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
             console.log("link.href:" + document.getElementById(id).href);
         }
-
-        $(function () {
-            $('#submit').on("click", function () {
-
-                var form = $("#form").serialize();
-
-                console.log(form);
-
-                $.ajax({
-                    type: "post",
-                    url: "http://localhost:8080/room",
-                    data: form,
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log(data);
-                        location.reload()
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-
-                    }
-                });
-
-            });
-        });
         function MeetingNCheck() {//MeetingNumber check
             theForm = document.MeetingNumber.MeetingInvite;
             if (theForm.value == "") {
@@ -184,7 +126,53 @@
             //opencv를 통해서 얼굴 확인되면 해당 이미지로 변경되게 하기
             //if문을 통해 true면 check_on으로 false면 check_off로
             document.getElementById("FCheck").src = "https://png.pngtree.com/element_our/20190523/ourmid/pngtree-green-checkmark-error-image_1082147.jpg";
+            var element = `
+                    <a href="/room/${localStorage.getItem('roomNinput')}" id="button-link-${localStorage.getItem('roomNinput')}">
+                        <button type="button" name="action" value="${localStorage.getItem('roomNinput')}"
+                                class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${localStorage.getItem('roomNinput')}
+                        </button>
+                    </a>
+                    `
+            $("#rooms-list").append(element);
+            var form = {
+                id: localStorage.getItem('roomNinput'),
+                uuid: localStorage.getItem('uuid')
+            };
+
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/room",
+                data: form,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    // location.reload()
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+                }
+            });
         }
+        $(function () {
+            $('#logout').on("click", function () {
+                localStorage.setItem("Loginstate", 0);
+                $.ajax({
+                    type: "get",
+                    url: "http://localhost:8080/user/logout"
+                })
+                    .done(function (msg) {
+                        console.log("Logout!");
+                    });
+            });
+        });
+        $(document).ready(function () {
+            console.log("start");
+            if (localStorage.getItem('roomNinput')) {
+                var lastData = localStorage.getItem('roomNinput');
+                console.log(lastData);
+            }
+        })
     </script>
 </body>
 
