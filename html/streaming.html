@@ -97,11 +97,12 @@
         </div>
     </main>
 
-    <script>
+    <script type="module">
         //import SockJS from 'sockjs-client'
-        // 'use strict';
+        //
+        'use strict';
         // // create and run Web Socket connection
-        const socket = new WebSocket("ws://" + "localhost:8080" + "/signal");
+        const socket = new WebSocket("ws://localhost:8080" + "/signal");
         // var W3CWebSocket = require('websocket').w3cwebsocket;
         // var socket = new W3CWebSocket("ws://" + "localhost:8080" + "/signal"); 
 
