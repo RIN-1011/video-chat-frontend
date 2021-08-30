@@ -101,7 +101,7 @@
             var a = { id: localStorage.getItem('userLoginId') };
             $.ajax({
                 method: "post",
-                url: "http://localhost:8080/user/getName",
+                url: "http://localhost:8443/user/getName",
                 data: JSON.stringify(a),
                 headers: { 'Content-Type': 'application/json' },
                 dataType: 'json'
@@ -114,11 +114,11 @@
         });
     </script>
     <script type="module">
-    
+
         //import SockJS from 'sockjs-client'
         //
         'use strict';
-    
+
         // // create and run Web Socket connection
         const socket = new WebSocket("wss://localhost:8443" + "/signal");
         // var W3CWebSocket = require('websocket').w3cwebsocket;
