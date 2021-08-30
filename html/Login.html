@@ -124,6 +124,7 @@
                 delCookie("loginCookie");
               }
               localStorage.setItem("Loginstate", 1);
+              localStorage.setItem("userLoginId", $("#IdCode").val());
               var theForm = document.loginInfo;
               theForm.action = "/";
               theForm.submit();

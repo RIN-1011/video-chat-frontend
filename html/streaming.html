@@ -41,7 +41,7 @@
         </div>
         <div id="User" class="topcorner">
             <!--Login Info/Logout-->
-            <h1 style="display: inline">000</h1>
+            <h1 style="display: inline" id="Uname"></h1>
     </header>
 
     <main role="main" class="container">
@@ -96,7 +96,23 @@
             </div>
         </div>
     </main>
-
+    <script>
+        $(document).ready(function () {
+            var a = { id: localStorage.getItem('userLoginId') };
+            $.ajax({
+                method: "post",
+                url: "http://localhost:8080/user/getName",
+                data: JSON.stringify(a),
+                headers: { 'Content-Type': 'application/json' },
+                dataType: 'json'
+            })
+                .done(function (msg) {
+                    console.log(msg.name);
+                    var element = document.getElementById("Uname");
+                    element.innerText = msg.name + "님";
+                });
+        });
+    </script>
     <script type="module">
         //import SockJS from 'sockjs-client'
         //
@@ -133,7 +149,7 @@
 
         // // WebRTC variables
         let localStream;
-        let localVideoTracks;
+        var localVideoTracks;
         let myPeerConnection;
 
         // // on page load runner
