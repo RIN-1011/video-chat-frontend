@@ -98,11 +98,13 @@
     </main>
 
     <script type="module">
+    
         //import SockJS from 'sockjs-client'
         //
         'use strict';
+    
         // // create and run Web Socket connection
-        const socket = new WebSocket("ws://localhost:8080" + "/signal");
+        const socket = new WebSocket("wss://localhost:8443" + "/signal");
         // var W3CWebSocket = require('websocket').w3cwebsocket;
         // var socket = new W3CWebSocket("ws://" + "localhost:8080" + "/signal"); 
 
@@ -472,7 +474,7 @@
 
         function exitRoom() {
 
-            exitUrl = "http://localhost:8080" + location.pathname + "/exit";
+            exitUrl = "https://localhost:8443" + location.pathname + "/exit";
 
             $.ajax({
                 type: "get",

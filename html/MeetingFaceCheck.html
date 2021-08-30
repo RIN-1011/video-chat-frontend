@@ -92,7 +92,7 @@
         $(function () {
             $.ajax({
                 type: 'GET', // GET방식으로 요청
-                url: 'http://localhost:8080/room', // Request보낼 URL
+                url: 'https://localhost:8443/room', // Request보낼 URL
                 data: { id: localStorage.getItem('roomNinput'), uuid: localStorage.getItem("uuid") }
             })
                 .done(function (msg) {
@@ -141,7 +141,7 @@
 
             $.ajax({
                 type: "post",
-                url: "http://localhost:8080/room",
+                url: "https://localhost:8443/room",
                 data: form,
                 dataType: 'json',
                 success: function (data) {
@@ -159,7 +159,7 @@
                 localStorage.setItem("Loginstate", 0);
                 $.ajax({
                     type: "get",
-                    url: "http://localhost:8080/user/logout"
+                    url: "https://localhost:8443/user/logout"
                 })
                     .done(function (msg) {
                         console.log("Logout!");
