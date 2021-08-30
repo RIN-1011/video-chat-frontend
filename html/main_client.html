@@ -101,7 +101,7 @@
                                 min="0" max="99" required>
                         </div>
                         <div>
-                            <a href="http://localhost:8080/room/random">
+                            <a href="http://localhost:8443/room/random">
                                 <button class="btn btn-outline-success" type="button">Random #</button>
                             </a>
                             <button value="create" type="submit" id="submit" class="btn btn-outline-primary">
@@ -137,7 +137,7 @@
         $(function () {
             $.ajax({
                 type: 'GET', // GET방식으로 요청
-                url: 'http://localhost:8080/room', // Request보낼 URL
+                url: 'https://localhost:8443/room', // Request보낼 URL
                 data: { id: $("input#id").value, uuid: localStorage.getItem("uuid") },
                 success: function (data) { // 성공적으로 수행 시 response를 data라는 인자로 받는다.
 
@@ -180,7 +180,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "http://localhost:8080/room",
+                    url: "https://localhost:8443/room",
                     data: form,
                     dataType: 'json',
                     success: function (data) {
@@ -199,7 +199,7 @@
                 localStorage.setItem("Loginstate", 0);
                 $.ajax({
                     type: "get",
-                    url: "http://localhost:8080/user/logout"
+                    url: "https://localhost:8443/user/logout"
                 })
                     .done(function (msg) {
                         console.log("Logout!");

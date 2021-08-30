@@ -106,7 +106,7 @@
         //
         $.ajax({
           type: "post",
-          url: "http://localhost:8080/user/login",
+          url: "https://localhost:8443/user/login",
           data: JSON.stringify(a),
           headers: { 'Content-Type': 'application/json' },
           dataType: 'json'
@@ -154,7 +154,7 @@
         $("#autoLogin").prop("checked", true);
         $.ajax({
           method: "post",
-          url: "http://localhost:8080/user/rememberId",
+          url: "https://localhost:8443/user/rememberId",
           data: JSON.stringify(a),
           headers: { 'Content-Type': 'application/json' },
           dataType: 'json'
