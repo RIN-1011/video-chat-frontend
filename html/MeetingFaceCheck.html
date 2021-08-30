@@ -63,7 +63,7 @@
         </div>
         <div id="User" class="topcorner">
             <!--Login Info/Logout-->
-            <h1 style="display: inline">000</h1>
+            <h1 style="display: inline" id="Uname"></h1>
             <a href="/" id="Logout">
                 <button id="logout" class="btn btn-danger" style="display: inline">Logout</button></a>
         </div>
@@ -167,12 +167,27 @@
             });
         });
         $(document).ready(function () {
+            var lastData = localStorage.getItem('Loginstate');
+            console.log(lastData);
+            var a = { id: localStorage.getItem('userLoginId') };
+            $.ajax({
+                method: "post",
+                url: "https://localhost:8443/user/getName",
+                data: JSON.stringify(a),
+                headers: { 'Content-Type': 'application/json' },
+                dataType: 'json'
+            })
+                .done(function (msg) {
+                    console.log(msg.name);
+                    var element = document.getElementById("Uname");
+                    element.innerText = msg.name + "님";
+                });
             console.log("start");
             if (localStorage.getItem('roomNinput')) {
                 var lastData = localStorage.getItem('roomNinput');
                 console.log(lastData);
             }
-        })
+        });
     </script>
 </body>
 
