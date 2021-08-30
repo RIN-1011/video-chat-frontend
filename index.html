@@ -140,7 +140,7 @@
                 var a = { id: localStorage.getItem('userLoginId') };
                 $.ajax({
                     method: "post",
-                    url: "http://localhost:8080/user/getName",
+                    url: "https://localhost:8443/user/getName",
                     data: JSON.stringify(a),
                     headers: { 'Content-Type': 'application/json' },
                     dataType: 'json'
