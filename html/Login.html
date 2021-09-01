@@ -102,8 +102,6 @@
           password: $("#PwCode").val(),
           useCookie: $(userCheck).prop("checked")
         };
-        console.log(a);
-        //
         $.ajax({
           type: "post",
           url: "https://localhost:8443/user/login",
@@ -117,10 +115,8 @@
               if ($(userCheck).prop("checked")) {
                 setCookie(msg.cookieName, msg.sessionId, msg.validTime);
                 var value = getCookie(msg.cookieName);
-                console.log("cookie create!");
               }
               else {
-                console.log("del");
                 delCookie("loginCookie");
               }
               localStorage.setItem("Loginstate", 1);

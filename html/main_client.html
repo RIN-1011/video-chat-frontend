@@ -70,7 +70,7 @@
     </header>
     <!-- Begin page content -->
     <main role="main" class="container">
-        <h1>Simple WebRTC Signaling Server</h1>
+        <h1>MeetingRoom</h1>
         <div id="container">
             <p>
                 This part receives a room number (or generates new one), and redirects current user there.
@@ -84,11 +84,6 @@
                             <h4>
                                 <div id="rooms-list-div">
                                     <span id="rooms-list">
-                                        <!-- <a th:href="@{/room/{id}(id=${r.id})}" th:id="'button-link-'+${r.id}">
-                                    <button type="button" name="action" th:text="${r.id}" th:value="${r.id}"
-                                            class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">99
-                                    </button>
-                                </a> -->
                                     </span>
                                 </div>
 
@@ -115,7 +110,20 @@
     <!--generates unique user identifier stored at 'uuid' input field to pass it to the back-side-->
     <!-- <script src="/js/main_client.js"></script> -->
     <script>
+
+        function addUuidToButtonLink(button) {
+            let id = 'button-link-' + button.value;
+            console.log(id);
+            //console.log("??" + document.getElementById(id));
+            console.log(document.getElementById(id).href);
+
+            let ref = document.getElementById(id).href;
+            document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
+            console.log("link.href:" + document.getElementById(id).href);
+        }
+
         $(function () {
+            //uuid
             const uuidInput = document.querySelector('input#uuid');
             console.log(location.host);
             function guid() {
@@ -132,9 +140,7 @@
             uuidInput.value = localStorage.getItem("uuid");
             console.log("local.uuid:" + localStorage.getItem("uuid"));
             console.log("input.value:" + uuidInput.value);
-        });
-
-        $(function () {
+            //Room and Button Create
             $.ajax({
                 type: 'GET', // GET방식으로 요청
                 url: 'https://localhost:8443/room', // Request보낼 URL
@@ -159,22 +165,8 @@
                     alert("AJAX Failed!");
                 }
             });
-        });
-
-        function addUuidToButtonLink(button) {
-            let id = 'button-link-' + button.value;
-            console.log(id);
-            //console.log("??" + document.getElementById(id));
-            console.log(document.getElementById(id).href);
-
-            let ref = document.getElementById(id).href;
-            document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
-            console.log("link.href:" + document.getElementById(id).href);
-        }
-
-        $(function () {
+            //create Room
             $('#submit').on("click", function () {
-
                 var form = $("#form").serialize();
                 console.log(form);
 
@@ -193,8 +185,7 @@
                     }
                 });
             });
-        });
-        $(function () {
+            //Logout
             $('#logout').on("click", function () {
                 localStorage.setItem("Loginstate", 0);
                 $.ajax({

@@ -61,7 +61,6 @@
             </a>
             </br></br>
             <!--Meeting Join-->
-            <!--get으로 보내면 action이 되지 않음-->
             <span id="rooms-list">
             </span><br>
             <form id="MeetingNumber" name="MeetingNumber" method="POST" style="display:inline;">
@@ -77,10 +76,8 @@
                     alert("Enter the Meeing Room Number!");
                 }
                 else {
-                    //있는 미팅룸인가? 아니면 일단 무조건 들어가게 할건가?
                     localStorage.setItem("roomNinput", $("#meetingN").val());
                     var theForm = document.MeetingNumber;
-                    console.log("??");
                     theForm.action = "/MeetingFaceCheck";
                     theForm.submit();
                 }
@@ -94,20 +91,10 @@
                     url: "https://localhost:8443/user/logout"
                 })
                     .done(function (msg) {
-                        console.log("Logout!");
+                        //console.log("Logout!");
                     });
             });
         });
-        function addUuidToButtonLink(button) {
-            let id = 'button-link-' + button.value;
-            console.log(id);
-            //console.log("??" + document.getElementById(id));
-            console.log(document.getElementById(id).href);
-
-            let ref = document.getElementById(id).href;
-            document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
-            console.log("link.href:" + document.getElementById(id).href);
-        }
         $(document).ready(function () {
             $.ajax({
                 type: 'GET',
@@ -116,13 +103,9 @@
                 success: function (data) {
                     $.each(data.rooms, function (index, value) {
                         var element = `
-                        <button type="button" name="action" value="${value.id}"
-                                class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${value.id}
-                        </button>
-                    `
+                        <label value="${value.id}">|${value.id}|</label>`
                         $("#rooms-list").append(element);
                     })
-
                 },
                 error: function () { // 실패시
                     alert("AJAX Failed!");
