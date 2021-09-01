@@ -144,6 +144,21 @@
         });
 
         function addUuidToButtonLink(button) {
+            var a = {
+                meetingRoomNum: localStorage.getItem('roomNinput'),
+                userId: localStorage.getItem('userLoginId')
+            };
+            $.ajax({
+                type: 'post',
+                url: 'https://localhost:8443/attendance/attend',
+                data: JSON.stringify(a),
+                headers: { 'Content-Type': 'application/json' },
+                dataType: 'json'
+            })
+                .done(function (msg) {
+                    console.log("done!");
+                });
+
             let id = 'button-link-' + button.value;
             let ref = document.getElementById(id).href;
             document.getElementById(id).href = ref + '/user/' + localStorage.getItem("uuid");
@@ -153,33 +168,55 @@
         function CheckUserFace() {
             //opencv를 통해서 얼굴 확인되면 해당 이미지로 변경되게 하기
             //if문을 통해 true면 check_on으로 false면 check_off로
-            document.getElementById("FCheck").src = "https://png.pngtree.com/element_our/20190523/ourmid/pngtree-green-checkmark-error-image_1082147.jpg";
-            var element = `
+            var att;
+            var a = { faceImage: $("#CaptureImg").val() };
+            //얼굴인식 요청
+            $.ajax({
+                type: "post",
+                url: "https://localhost:8443/attendance/checkFaceId",
+                data: JSON.stringify(a),
+                headers: { 'Content-Type': 'application/json' },
+                dataType: 'json'
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                    att = msg;
+                });
+
+            //얼굴인식
+            if (att) {
+                $("#btn-capture").attr("disabled", "disabled");
+                document.getElementById("FCheck").src = "https://png.pngtree.com/element_our/20190523/ourmid/pngtree-green-checkmark-error-image_1082147.jpg";
+                var element = `
                     <a href="/room/${localStorage.getItem('roomNinput')}" id="button-link-${localStorage.getItem('roomNinput')}">
                         <button type="button" name="action" value="${localStorage.getItem('roomNinput')}"
                                 class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${localStorage.getItem('roomNinput')}
                         </button>
                     </a>
                     `
-            $("#rooms-list").append(element);
-            var form = {
-                id: localStorage.getItem('roomNinput'),
-                uuid: localStorage.getItem('uuid')
-            };
+                $("#rooms-list").append(element);
+                var form = {
+                    id: localStorage.getItem('roomNinput'),
+                    uuid: localStorage.getItem('uuid')
+                };
 
-            $.ajax({
-                type: "post",
-                url: "https://localhost:8443/room",
-                data: form,
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (request, status, error) {
-                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                $.ajax({
+                    type: "post",
+                    url: "https://localhost:8443/room",
+                    data: form,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 
-                }
-            });
+                    }
+                });
+            }
+            else {
+                console.log("리턴값 이상");
+            }
         }
         $(document).ready(function () {
             var lastData = localStorage.getItem('Loginstate');
