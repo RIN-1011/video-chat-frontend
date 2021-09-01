@@ -36,7 +36,7 @@
 <body class="text-center">
     <header>
         <div class="topcorner2">
-            <!--Logo-->
+            <!--Name_방정보를 가지고 있는 데이터베이스 있으면 쉽게 할 수 있을것같음/meeting시작으로 방 만든 사람의 이름과, 해당 방번호를 저장하고 있는 DB-->
             <h1>00's room</h1>
         </div>
         <div id="User" class="topcorner">
@@ -45,7 +45,7 @@
     </header>
 
     <main role="main" class="container">
-        <h1>Simple WebRTC Signalling Server</h1>
+        <h1>MeetingRoom</h1>
         <input type="hidden" id="id" name="id" />
         <div class="col-lg-12 mb-3">
             <div class="mb-3" id="local-user-id">
@@ -56,27 +56,28 @@
                     <div id="buttons" class="row">
                         <div class="btn-group mr-2" role="group">
                             <div class="mr-2" data-toggle="buttons">
-                                <label class="btn btn-outline-success" id="video_off">
-                                    <input type="radio" name="options" style="display:none" autocomplete="off">Video On
-                                </label>
-                                <label class="btn btn-outline-warning active" id="video_on">
+                                <label class="btn btn-outline-success active" id="video_on">
                                     <input type="radio" name="options" style="display:none" autocomplete="off"
-                                        checked>Video Off
+                                        checked>Video On
+                                </label>
+                                <label class="btn btn-outline-warning" id="video_off">
+                                    <input type="radio" name="options" style="display:none" autocomplete="off">Video Off
                                 </label>
                             </div>
                             <div class="mr-2" data-toggle="buttons">
-                                <label class="btn btn-outline-success" id="audio_off">
-                                    <input type="radio" name="options" style="display:none" autocomplete="off">Audio On
-                                </label>
-                                <label class="btn btn-outline-warning active" id="audio_on">
+                                <label class="btn btn-outline-success active" id="audio_on">
                                     <input type="radio" name="options" style="display:none" autocomplete="off"
-                                        checked>Audio Off
+                                        checked>Audio On
+                                </label>
+                                <label class="btn btn-outline-warning" id="audio_off">
+                                    <input type="radio" name="options" style="display:none" autocomplete="off">Audio Off
                                 </label>
                             </div>
                         </div>
 
                         <!--<button type="button" class="btn btn-outline-success" id="audio" data-toggle="button">Audio</button>-->
-                        <a href="/main">
+                        <a href="/">
+                            <!--@@@수정해야할 부분-->
                             <button type="button" class="btn btn-outline-danger" id="exit" name="exit"
                                 onclick="exitRoom()">
                                 Exit Room
@@ -121,8 +122,6 @@
 
         // // create and run Web Socket connection
         const socket = new WebSocket("wss://localhost:8443" + "/signal");
-        // var W3CWebSocket = require('websocket').w3cwebsocket;
-        // var socket = new W3CWebSocket("ws://" + "localhost:8080" + "/signal"); 
 
         // // UI elements
         const videoButtonOff = document.querySelector('#video_off');
@@ -360,7 +359,6 @@
                     alert("Error opening your camera and/or microphone: " + error.message);
                     break;
             }
-
             stop();
         }
 
@@ -499,7 +497,7 @@
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
-                    // location.reload();
+                    location.reload();
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
