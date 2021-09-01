@@ -181,42 +181,42 @@
                 .done(function (msg) {
                     console.log(msg);
                     att = msg;
-                });
-
-            //얼굴인식
-            if (att) {
-                $("#btn-capture").attr("disabled", "disabled");
-                document.getElementById("FCheck").src = "https://png.pngtree.com/element_our/20190523/ourmid/pngtree-green-checkmark-error-image_1082147.jpg";
-                var element = `
+                    console.log("att=" + att);
+                    //얼굴인식
+                    if (att) {
+                        $("#btn-capture").attr("disabled", "disabled");
+                        document.getElementById("FCheck").src = "https://png.pngtree.com/element_our/20190523/ourmid/pngtree-green-checkmark-error-image_1082147.jpg";
+                        var element = `
                     <a href="/room/${localStorage.getItem('roomNinput')}" id="button-link-${localStorage.getItem('roomNinput')}">
                         <button type="button" name="action" value="${localStorage.getItem('roomNinput')}"
                                 class="btn badge badge-primary" onclick="addUuidToButtonLink(this);">${localStorage.getItem('roomNinput')}
                         </button>
                     </a>
                     `
-                $("#rooms-list").append(element);
-                var form = {
-                    id: localStorage.getItem('roomNinput'),
-                    uuid: localStorage.getItem('uuid')
-                };
+                        $("#rooms-list").append(element);
+                        var form = {
+                            id: localStorage.getItem('roomNinput'),
+                            uuid: localStorage.getItem('uuid')
+                        };
 
-                $.ajax({
-                    type: "post",
-                    url: "https://localhost:8443/room",
-                    data: form,
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        $.ajax({
+                            type: "post",
+                            url: "https://localhost:8443/room",
+                            data: form,
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function (request, status, error) {
+                                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 
+                            }
+                        });
+                    }
+                    else {
+                        alert("Please try again.");
                     }
                 });
-            }
-            else {
-                console.log("리턴값 이상");
-            }
         }
         $(document).ready(function () {
             var lastData = localStorage.getItem('Loginstate');
