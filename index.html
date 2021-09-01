@@ -114,7 +114,6 @@
         });
         $(document).ready(function () {
             var lastData = localStorage.getItem('Loginstate');
-            console.log(lastData);
             if (lastData == 1) {
                 $("#before").hide();
                 $("#after").show();
@@ -129,7 +128,6 @@
                     dataType: 'json'
                 })
                     .done(function (msg) {
-                        console.log(msg.name);
                         var element = document.getElementById("Uname");
                         element.innerText = msg.name + "님";
                     });
