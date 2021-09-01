@@ -166,8 +166,6 @@
         }
 
         function CheckUserFace() {
-            //opencv를 통해서 얼굴 확인되면 해당 이미지로 변경되게 하기
-            //if문을 통해 true면 check_on으로 false면 check_off로
             var att;
             var a = { faceImage: $("#CaptureImg").val() };
             //얼굴인식 요청
@@ -179,9 +177,7 @@
                 dataType: 'json'
             })
                 .done(function (msg) {
-                    console.log(msg);
                     att = msg;
-                    console.log("att=" + att);
                     //얼굴인식
                     if (att) {
                         $("#btn-capture").attr("disabled", "disabled");
@@ -205,13 +201,14 @@
                             data: form,
                             dataType: 'json',
                             success: function (data) {
-                                console.log(data);
+                                //console.log(data);
                             },
                             error: function (request, status, error) {
                                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 
                             }
                         });
+                        alert("Attendance Success");
                     }
                     else {
                         alert("Please try again.");
